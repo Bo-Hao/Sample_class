@@ -1,2 +1,8 @@
 load("/Users/pengbohao/Downloads/FORINVS-master/forinvs.RData")
 forinvs()
+load("/Users/pengbohao/Sample_class/FORINVS-master/forinvs.RData")
+forinvs()
+load("/Users/pengbohao/Sample_class/FORINVS-master/forinvs.RData")
+forinvs()
+load("/Users/pengbohao/Sample_class/FORINVS-master/forinvs.RData")
+forinvs()
