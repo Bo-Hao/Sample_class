@@ -4,6 +4,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
 import matplotlib.mlab as mlab
 from scipy.stats import norm
 
@@ -22,12 +24,14 @@ class main():
         self.para_label_list = []
         self.para_entry_list = []
         
+        
 
     def gui(self):
         self.window= tk.Tk()
         self.window.title('gui.CLT')
         
-
+        self.canvas = tk.Canvas(self.window, bg = 'white', height = 500, width = 500)
+        self.canvas.grid(column = 4, row = 0)
 
         self.distri_label = tk.Label(self.window, text = 'Please select a distribution.')
         self.distri_label.grid(column = 0, row = 0)
@@ -97,30 +101,40 @@ class main():
             self.cal()
             self.drawit()
             
+
+
     def cal(self):
         drawer = self.information[self.dis_type][1]
         self.savier = []
         for i in range(self.times):
             self.savier.append(np.mean(drawer(size = self.n, *self.parameter)))
         
-       
+
 
 
     def drawit(self):
-        plt.figure()
+        fig = plt.figure()
         plt.subplot(2,1,1)
         n, bins, patches = plt.hist(self.savier, bins = 50)
         (mu, sigma) = norm.fit(self.savier)
 
         
-
+        
+        
         # add a 'best fit' line
         y = norm.pdf(bins, mu, sigma)
         l = plt.plot(bins, y/sum(y)*self.times, 'r--', linewidth=2)
-        
+    
+        canvas = FigureCanvasTkAgg(fig, master=self.window)  # A tk.DrawingArea.
+        canvas.draw()
+        canvas.get_tk_widget().grid(column = 4, row = 0)
+
+
+        '''image_file = tk.PhotoImage(file='ins.gif')
+        image = self.canvas.create_image(10, 10, anchor='nw', image=image_file)'''
 
         
-        plt.show()
+
 
 def p(*argv, a):
     print(a)
