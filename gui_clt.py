@@ -16,13 +16,12 @@ from scipy.stats import norm
 class main():
     def __init__(self):
         self.information = {
-            "uniform":[['min', "max"], np.random.uniform], "normal":[["mu", "sigma"], np.random.normal],
-            "binomial":[['n', 'p'], np.random.binomial], "possion":[['lambda'], np.random.poisson], "gamma":[['shape'], np.random.gamma],
-            "beta":[['a', 'b'], np.random.beta]
+            "uniform":[['min', "max"], np.random.uniform, []], "normal":[["mu", "sigma"], np.random.normal, []],
+            "binomial":[['n', 'p'], np.random.binomial, []], "possion":[['lambda'], np.random.poisson, []], "gamma":[['shape'], np.random.gamma, []],
+            "beta":[['a', 'b'], np.random.beta, []]
             }
         
-        self.para_label_list = []
-        self.para_entry_list = []
+
         
         
 
@@ -33,38 +32,44 @@ class main():
         self.canvas = tk.Canvas(self.window, bg = 'white', height = 500, width = 500)
         self.canvas.grid(column = 4, row = 0)
 
-        self.distri_label = tk.Label(self.window, text = 'Please select a distribution.')
+        self.distri_label = tk.Label(self.window, text = 'Distribution.')
         self.distri_label.grid(column = 0, row = 0)
 
-        distri_list = ["uniform", "normal", "binomial", "possion", "gamma", "beta"]
+        distri_list = [i for i in self.information]
         self.distri_combobox = ttk.Combobox(self.window, values = distri_list, state = 'readonly')
         self.distri_combobox.grid(column = 1, row = 0)
 
-        self.distri_button = tk.Button(self.window, text = 'Comfirm', command = self.distri_command)
-        self.distri_button.grid(column = 1, row = 2)
+        '''self.distri_button = tk.Button(self.window, text = 'Comfirm', command = self.distri_command)
+        self.distri_button.grid(column = 1, row = 2)'''
+        i = 1
+        for d in self.information:
+            for j in range(len(self.information[d][0])):
+                label_text = self.information[d][0][j]
+                l = tk.Label(self.window, text = label_text)
+                l.grid(column = 0 + 2*j, row = i)
+                e = tk.Entry(self.window)
+                e.grid(column = 1 + 2*j, row = i)
+                self.information[d][2].append(e)
 
-        self.test_var = tk.StringVar()
-        self.test = tk.Label(self.window, textvariable = self.test_var)
-        self.test.grid(column = 0, row = 2)
-
+            i += 1
 
         self.n_label = tk.Label(self.window, text = "sample size")
-        self.n_label.grid(column = 0, row = 5)
+        self.n_label.grid(column = 0, row = i+1)
         self.n_entry = tk.Entry(self.window)
-        self.n_entry.grid(column = 1, row = 5)
+        self.n_entry.grid(column = 1, row = i+1)
         
         self.times_label = tk.Label(self.window, text = 'iteration')
-        self.times_label.grid(column = 0, row = 6)
+        self.times_label.grid(column = 0, row = i+2)
         self.times_entry = tk.Entry(self.window)
-        self.times_entry.grid(column = 1, row = 6)
+        self.times_entry.grid(column = 1, row = i+2)
 
         self.run_button = tk.Button(self.window, command = self.ok, text = 'OK')
-        self.run_button.grid(column = 1, row = 7)        
+        self.run_button.grid(column = 1, row = i+3)        
 
 
         self.window.mainloop()
     
-    def distri_command(self):
+    '''def distri_command(self):
         if self.distri_combobox.get() == "":
             messagebox.showinfo(title='Error', message='please select the type of distribution.')
         else:
@@ -82,7 +87,7 @@ class main():
                 para_entry = tk.Entry(self.window)
                 para_entry.grid(column = 2*i+1, row = 3, padx=2, pady=10)
                 self.para_label_list.append(para_label)
-                self.para_entry_list.append(para_entry)
+                self.para_entry_list.append(para_entry)'''
 
 
     def ok(self):
@@ -96,8 +101,7 @@ class main():
             self.n = int(self.n_entry.get())
             self.times = int(self.times_entry.get())
             self.dis_type = self.distri_combobox.get()
-            self.parameter = [float(p.get()) for p in self.para_entry_list]
-
+            self.parameter = [float(i.get()) for i in self.information[self.dis_type][2]]
             self.cal()
             self.drawit()
             
