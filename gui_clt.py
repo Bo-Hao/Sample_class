@@ -13,7 +13,7 @@ from scipy.stats import norm
 
 
 
-class main():
+class CLT_gui():
     def __init__(self):
         self.information = {
             "uniform":[['min', "max"], np.random.uniform, []], "normal":[["mu", "sigma"], np.random.normal, []],
@@ -26,48 +26,48 @@ class main():
         
 
     def gui(self):
-        self.window= tk.Tk()
-        self.window.title('gui.CLT')
+        self.clt_gui= tk.Tk()
+        self.clt_gui.title('gui.CLT')
         
-        self.canvas = tk.Canvas(self.window, bg = 'white', height = 500, width = 500)
+        self.canvas = tk.Canvas(self.clt_gui, bg = 'white', height = 500, width = 500)
         self.canvas.grid(column = 4, row = 0)
 
-        self.distri_label = tk.Label(self.window, text = 'Distribution.')
+        self.distri_label = tk.Label(self.clt_gui, text = 'Distribution.')
         self.distri_label.grid(column = 0, row = 0)
 
         distri_list = [i for i in self.information]
-        self.distri_combobox = ttk.Combobox(self.window, values = distri_list, state = 'readonly')
+        self.distri_combobox = ttk.Combobox(self.clt_gui, values = distri_list, state = 'readonly')
         self.distri_combobox.grid(column = 1, row = 0)
 
-        '''self.distri_button = tk.Button(self.window, text = 'Comfirm', command = self.distri_command)
+        '''self.distri_button = tk.Button(self.clt_gui, text = 'Comfirm', command = self.distri_command)
         self.distri_button.grid(column = 1, row = 2)'''
         i = 1
         for d in self.information:
             for j in range(len(self.information[d][0])):
                 label_text = self.information[d][0][j]
-                l = tk.Label(self.window, text = label_text)
+                l = tk.Label(self.clt_gui, text = label_text)
                 l.grid(column = 0 + 2*j, row = i)
-                e = tk.Entry(self.window)
+                e = tk.Entry(self.clt_gui)
                 e.grid(column = 1 + 2*j, row = i)
                 self.information[d][2].append(e)
 
             i += 1
 
-        self.n_label = tk.Label(self.window, text = "sample size")
+        self.n_label = tk.Label(self.clt_gui, text = "sample size")
         self.n_label.grid(column = 0, row = i+1)
-        self.n_entry = tk.Entry(self.window)
+        self.n_entry = tk.Entry(self.clt_gui)
         self.n_entry.grid(column = 1, row = i+1)
         
-        self.times_label = tk.Label(self.window, text = 'iteration')
+        self.times_label = tk.Label(self.clt_gui, text = 'iteration')
         self.times_label.grid(column = 0, row = i+2)
-        self.times_entry = tk.Entry(self.window)
+        self.times_entry = tk.Entry(self.clt_gui)
         self.times_entry.grid(column = 1, row = i+2)
 
-        self.run_button = tk.Button(self.window, command = self.ok, text = 'OK')
+        self.run_button = tk.Button(self.clt_gui, command = self.ok, text = 'OK')
         self.run_button.grid(column = 1, row = i+3)        
 
 
-        self.window.mainloop()
+        self.clt_gui.mainloop()
     
     '''def distri_command(self):
         if self.distri_combobox.get() == "":
@@ -82,9 +82,9 @@ class main():
                 self.para_entry_list = []
 
             for i in range(len(para_info)):
-                para_label = tk.Label(self.window, text = para_info[i])
+                para_label = tk.Label(self.clt_gui, text = para_info[i])
                 para_label.grid(column = 2*i, row = 3, padx=2, pady=10)
-                para_entry = tk.Entry(self.window)
+                para_entry = tk.Entry(self.clt_gui)
                 para_entry.grid(column = 2*i+1, row = 3, padx=2, pady=10)
                 self.para_label_list.append(para_label)
                 self.para_entry_list.append(para_entry)'''
@@ -117,26 +117,32 @@ class main():
 
 
     def drawit(self):
-        fig = plt.figure()
-        plt.subplot(2,1,1)
+        fig = plt.figure(figsize=(7,7))
+        plt.subplot(3,1,1)
+        drawer = self.information[self.dis_type][1]
+        sa = []
+        for i in range(self.times):
+            sa.append(np.mean(drawer(size = 1, *self.parameter)))
+        plt.hist(sa)
+        plt.title('Distribution of '+str(self.distri_combobox.get()+' distribution'))
+        plt.subplot(3,1,2)
         n, bins, patches = plt.hist(self.savier, bins = 50)
+        plt.title('Distribution of Means')
         (mu, sigma) = norm.fit(self.savier)
-
-        
-        
-        
         # add a 'best fit' line
         y = norm.pdf(bins, mu, sigma)
-        l = plt.plot(bins, y/sum(y)*self.times, 'r--', linewidth=2)
+        l = plt.plot(bins, y/sum(y)*self.times, 'r--', linewidth=2)       
+        plt.subplot(3,1,3)
+        n, bins, patches = plt.hist(self.savier, bins = 50,cumulative=True)
+        
     
-        canvas = FigureCanvasTkAgg(fig, master=self.window)  # A tk.DrawingArea.
+        plt.title('Cumulative Distribution Function of Means')
+        plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+
+        
+        canvas = FigureCanvasTkAgg(fig, master=self.clt_gui)  # A tk.DrawingArea.
         canvas.draw()
         canvas.get_tk_widget().grid(column = 4, row = 0)
-
-
-        '''image_file = tk.PhotoImage(file='ins.gif')
-        image = self.canvas.create_image(10, 10, anchor='nw', image=image_file)'''
-
         
 
 
@@ -159,7 +165,7 @@ def three_edge(a, b, c):
 
 
 if __name__ == "__main__":
-    m = main()
+    m = CLT_gui()
     m.gui()
     
 

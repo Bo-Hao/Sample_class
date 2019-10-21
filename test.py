@@ -1,65 +1,31 @@
 import numpy as np 
-import tkinter as tk 
-from tkinter import messagebox
+import time
+import matplotlib.pyplot as plt 
 
 
 
 
+def benefit(n, p):
+    return p*n
 
 
 
-
-class Forinvs():
-    def __init__(self, ):
-        pass
-
-    def gui(self):
-        self.window= tk.Tk()
-        self.window.title('gui')
-
-
-        self.canvas = tk.Canvas(self.window, height = 329, width = 637)
-        self.canvas.grid(column = 0, row = 0)
-        image_file = tk.PhotoImage(file='title.gif')
-        self.canvas.create_image(0, 0, anchor='nw', image=image_file)
-
-
-
-        # Menu bar 
-        menubar = tk.Menu(self.window)
-
-
-        file_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label='File', menu=file_menu)
-        file_menu.add_command(label='Close', command = self.window.quit)
-        file_menu.add_separator()##这里就是一条分割线
-
-
-        plot_design_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label='Plot Design', menu=plot_design_menu)
-        plot_design_menu.add_command(label='Circle', command = self.do_job)
-        plot_design_menu.add_command(label='Cluster', command = self.do_job)
-        plot_design_menu.add_command(label='HPS', command = self.do_job)
-        plot_design_menu.add_command(label='Rectangle', command = self.do_job)
-        plot_design_menu.add_command(label='Polygon', command = self.do_job)
-
-        sample_design_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label='Sample Design', menu=sample_design_menu)
-
-        theory_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label='Theory', menu=theory_menu)
-
-        help_menu = tk.Menu(menubar, tearoff = 0)
-        menubar.add_cascade(label='Help', menu=help_menu)
-
-
-        self.window.config(menu=menubar)
-
-
-
-        self.window.mainloop()
+ran = np.arange(0.7, 1.3, 0.01)
+for p in ran:
+    for n in ran:
+        earn = benefit(n, p)
         
-    def do_job(self):
-        print("do")
-c = Forinvs()
-c.gui()
+        if earn > 1.01:
+            plt.scatter(n, p, c = 'blue', s = earn**3)
+        elif earn < 0.99:
+            plt.scatter(n, p, c = 'red', s = 1/earn**3)
+        else:
+
+            plt.scatter(n, p, c = "green", s = earn**3)
+
+
+
+plt.title("Profit and Loss")
+plt.xlabel('difference of number')
+plt.ylabel('difference of price')
+plt.show()
