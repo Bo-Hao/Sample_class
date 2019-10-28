@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import csv
 import pickle
 
-with open('/Users/pengbohao/Sample_class/FORINVS-master/exdata1.pickle', 'rb') as f:
-    data = pickle.load(f)
-print(data)
 
+theta = np.linspace(0, 2 * np.pi, 200)
+plt.plot(200*np.cos(theta), 200*np.sin(theta), color="red", linewidth=2)
+plt.show()
