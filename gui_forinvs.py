@@ -6,9 +6,6 @@ from gui_clt import CLT_gui
 
 
 
-
-
-
 class Forinvs():
     def __init__(self, ):
         pass
@@ -65,6 +62,9 @@ class Forinvs():
 
     def theory_clt(self):
         CLT_gui().gui()
+
+    def plot_circle(self):
+        
         
 
 c = Forinvs()
