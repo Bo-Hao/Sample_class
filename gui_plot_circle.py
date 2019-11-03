@@ -93,11 +93,11 @@ class GUI_plot_circle():
 
 
         theta = np.linspace(0, 2 * np.pi, 200)
-        plt.plot(self.px + self.pr*np.cos(theta), self.py + self.pr*np.sin(theta), color="red", linewidth=2)
+        plt.plot(self.px + self.pr*np.cos(theta), self.py + self.pr*np.sin(theta), color="red", linewidth=1)
 
-        plt.scatter(draw_in_x, draw_in_y , c = 'black')
-        plt.scatter(draw_out_x, draw_out_y, c = 'gray')
-        plt.scatter(self.px, self.py, c = 'red', marker = 'x')
+        plt.scatter(draw_in_x, draw_in_y , c = 'black', s = 30/self.pr)
+        plt.scatter(draw_out_x, draw_out_y, c = 'gray', s = 30/self.pr)
+        plt.scatter(self.px, self.py, c = 'red', marker = 'x', s = 30/self.pr)
         
         plt.xlim(self.px - 1.6*self.pr, self.px + 1.6*self.pr)
         plt.ylim(self.py - 1.6*self.pr, self.py + 1.6*self.pr)
