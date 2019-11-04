@@ -30,12 +30,12 @@ class GUI_plot_circle():
         self.xdata_label.place(x = x, y = y + i*ygap)
 
         self.data_combobox = ttk.Combobox(self.gui_circle, textvariable = tk.StringVar())
-        self.data_combobox["value"] = ['xdata']
+        self.data_combobox["value"] = ['exdata1']
         self.data_combobox.current(0)
         self.data_combobox.place(x = x + xgap, y = y + i*ygap, width = 100)
         i += 1
         
-        self.px_label = tk.Label(self.gui_circle, text = 'x')
+        self.px_label = tk.Label(self.gui_circle, text = 'px (m)')
         self.px_label.place(x = x , y = y + i*ygap)
 
 
@@ -43,22 +43,24 @@ class GUI_plot_circle():
         self.px_entry.place(x = x + xgap, y = y + i*ygap, width = 100)
         i += 1
 
-        self.py_label = tk.Label(self.gui_circle, text = 'y')
+        self.py_label = tk.Label(self.gui_circle, text = 'py (m)')
         self.py_label.place(x = x, y = y + i*ygap)
 
         self.py_entry = tk.Entry(self.gui_circle)
         self.py_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
         i += 1 
 
-        self.pr_label = tk.Label(self.gui_circle, text = 'radius')
+        self.pr_label = tk.Label(self.gui_circle, text = 'pradius (m)')
         self.pr_label.place(x = x, y =  y + i*ygap)
         
+        '''defu = tk.StringVar()
+        defu.set(10)'''
         self.pr_entry = tk.Entry(self.gui_circle)
         self.pr_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
         i += 1
 
         
-        self.pedge_label = tk.Label(self.gui_circle, text = 'edge')
+        self.pedge_label = tk.Label(self.gui_circle, text = 'boundary')
         self.pedge_label.place(x = x, y = y + i*ygap) 
         
         edge_list = ['NA']
@@ -97,7 +99,7 @@ class GUI_plot_circle():
 
         plt.scatter(draw_in_x, draw_in_y , c = 'black', s = 30/self.pr)
         plt.scatter(draw_out_x, draw_out_y, c = 'gray', s = 30/self.pr)
-        plt.scatter(self.px, self.py, c = 'red', marker = 'x', s = 30/self.pr)
+        plt.scatter(self.px, self.py, c = 'red', marker = 'x', s = 50/self.pr)
         
         plt.xlim(self.px - 1.6*self.pr, self.px + 1.6*self.pr)
         plt.ylim(self.py - 1.6*self.pr, self.py + 1.6*self.pr)
@@ -147,7 +149,7 @@ class GUI_plot_circle():
                 self.inshape.append(self.inarea[i])
             else:
                 self.outshape.append(self.inarea[i])
-        print(self.inshape)
+        
         self.inshape = np.array(self.inshape)
         self.outshape = np.array(self.outshape)
 

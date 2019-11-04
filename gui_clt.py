@@ -1,6 +1,7 @@
 import numpy as np 
 from math import *
-import tkinter as tk 
+
+from mttkinter import mtTkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
@@ -15,6 +16,7 @@ from PIL import Image
 from PIL import ImageDraw  
 from PIL import ImageFont  
 # KS test
+
 
 
 class CLT_gui():
@@ -84,7 +86,7 @@ class CLT_gui():
 
 
         self.clt_gui.mainloop()
-
+cd 
 
     def ok(self):
         if self.n_entry.get() == '' or self.times_entry == '':
@@ -93,6 +95,8 @@ class CLT_gui():
         else:
             self.n = int(self.n_entry.get())
             self.times = int(self.times_entry.get())
+
+
             self.parameter = [float(i.get()) for i in self.information[self.v.get()][2]]
             self.cal()
             self.drawit()
@@ -126,9 +130,11 @@ class CLT_gui():
         # add a 'best fit' line
         y = norm.pdf(bins, mu, sigma)
         l = plt.plot(bins, y/sum(y)*self.times, 'r--', linewidth=2)
+        ##
         sns.distplot(self.savier, hist=False, color = 'blue')        
         plt.subplot(3,1,3)
-        n, bins, patches =plt.hist(self.savier, bins = 40,cumulative=True)        
+        n, bins, patches =plt.hist(self.savier, bins = 40,cumulative=True)       
+        #cdf red curve 
         plt.title('Cumulative Distribution Function of Means')
         plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)        
         plt.legend(loc='upper left',title='ks test: '+str((stats.kstest(self.savier,'norm')))) 

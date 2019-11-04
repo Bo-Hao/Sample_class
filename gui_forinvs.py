@@ -1,9 +1,9 @@
 import numpy as np 
-import tkinter as tk 
+from mttkinter import mtTkinter as tk
 from tkinter import messagebox
 from gui_clt import CLT_gui
 from gui_plot_circle import GUI_plot_circle
-
+import threading
 
 
 
@@ -63,11 +63,19 @@ class Forinvs():
         print("do")
 
     def theory_clt(self):
-        CLT_gui().gui()
+        self.Entry_gui.destroy()
+        C = CLT_gui()
+        C.gui()
+        self.gui()
+
+
 
     def plot_circle(self):
         GUI_plot_circle().gui()
         
 
-c = Forinvs()
-c.gui()
+
+if __name__ == "__main__":
+    F = Forinvs()
+    F.gui()
+    
