@@ -53,10 +53,11 @@ class GUI_plot_circle():
         self.pr_label = tk.Label(self.gui_circle, text = 'pradius (m)')
         self.pr_label.place(x = x, y =  y + i*ygap)
         
-        '''defu = tk.StringVar()
-        defu.set(10)'''
-        self.pr_entry = tk.Entry(self.gui_circle)
+        default_value = tk.StringVar()
+        default_value.set(10)
+        self.pr_entry = tk.Entry(self.gui_circle, textvariable = default_value)
         self.pr_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
+        
         i += 1
 
         

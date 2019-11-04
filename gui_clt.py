@@ -1,7 +1,6 @@
 import numpy as np 
-from math import *
-
-from mttkinter import mtTkinter as tk
+import math
+import tkinter as tk 
 import tkinter.ttk as ttk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
@@ -16,7 +15,6 @@ from PIL import Image
 from PIL import ImageDraw  
 from PIL import ImageFont  
 # KS test
-
 
 
 class CLT_gui():
@@ -86,7 +84,7 @@ class CLT_gui():
 
 
         self.clt_gui.mainloop()
-cd 
+
 
     def ok(self):
         if self.n_entry.get() == '' or self.times_entry == '':
@@ -95,8 +93,6 @@ cd
         else:
             self.n = int(self.n_entry.get())
             self.times = int(self.times_entry.get())
-
-
             self.parameter = [float(i.get()) for i in self.information[self.v.get()][2]]
             self.cal()
             self.drawit()
@@ -113,31 +109,30 @@ cd
 
 
     def drawit(self):
-        fig = plt.figure(figsize=(5,5))
+        fig = plt.figure(figsize=(6,6))
         plt.subplot(3,1,1)
         drawer = self.information[self.v.get()][1]
         sa = []
         for i in range(self.times):
             sa.append(np.mean(drawer(size = 1, *self.parameter)))
         sns.set()
-        plt.hist(sa)
+        sns.distplot(sa,color='blue',kde=False,bins=40)
         plt.title('Distribution of '+self.v.get()+' distribution')
         plt.subplot(3,1,2)
-        n, bins, patches = plt.hist(self.savier, bins = 40)
-        sns.distplot(self.savier, hist=False)
-        plt.title('Distribution of Means')
-        (mu, sigma) = norm.fit(self.savier)
-        # add a 'best fit' line
-        y = norm.pdf(bins, mu, sigma)
-        l = plt.plot(bins, y/sum(y)*self.times, 'r--', linewidth=2)
-        ##
-        sns.distplot(self.savier, hist=False, color = 'blue')        
+        sns.distplot(self.savier,fit=norm,bins=40,color='blue')
+        plt.title('Distribution of Means')      
         plt.subplot(3,1,3)
-        n, bins, patches =plt.hist(self.savier, bins = 40,cumulative=True)       
-        #cdf red curve 
+        plt.hist(self.savier, bins =40,cumulative=True,density=True,color='blue')
+        samples=np.random.normal(np.mean(self.savier),np.std(self.savier),self.times)
+        sns.distplot(samples,kde_kws={'cumulative': True},hist=False,color='red')       
         plt.title('Cumulative Distribution Function of Means')
+        #Compute mean and standard deviation: mu, sigma
+     
+        # Sample out of a normal distribution with this mu and sigma: samples
+        
+  
         plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)        
-        plt.legend(loc='upper left',title='ks test: '+str((stats.kstest(self.savier,'norm')))) 
+        plt.legend(loc='upper left',title='ks test: pvalue='+str((round(stats.kstest(self.savier,'norm')[1],5)))) 
 
       
         canvas = FigureCanvasTkAgg(fig, master=self.clt_gui)  # A tk.DrawingArea.
@@ -151,4 +146,3 @@ cd
 if __name__ == "__main__":
     m = CLT_gui()
     m.gui()
-    
