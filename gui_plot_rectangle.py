@@ -50,7 +50,7 @@ class GUI_plot_rectangle():
         self.py_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
         i += 1 
 
-        self.ph_label = tk.Label(self.gui_rectangle, text = 'height (m)')
+        self.ph_label = tk.Label(self.gui_rectangle, text = 'width (m)')
         self.ph_label.place(x = x, y =  y + i*ygap)
         
         default_valueh = tk.StringVar()
@@ -61,7 +61,7 @@ class GUI_plot_rectangle():
 
         default_valuew = tk.StringVar()
         default_valuew.set(10)
-        self.pw_label = tk.Label(self.gui_rectangle, text = 'width (m)')
+        self.pw_label = tk.Label(self.gui_rectangle, text = 'length (m)')
         self.pw_label.place(x = x, y =  y + i*ygap)
         
 

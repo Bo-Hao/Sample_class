@@ -72,11 +72,14 @@ class Forinvs():
 
 
     def plot_circle(self):
+        self.Entry_gui.destroy()
         GUI_plot_circle().gui()
+        self.gui()
 
     def plot_rectangle(self):
+        self.Entry_gui.destroy()
         GUI_plot_rectangle().gui()
-        
+        self.gui()
 
 
 if __name__ == "__main__":
