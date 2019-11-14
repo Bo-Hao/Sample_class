@@ -4,7 +4,8 @@ from tkinter import messagebox
 from gui_clt import CLT_gui
 from gui_plot_circle import GUI_plot_circle
 from gui_plot_rectangle import GUI_plot_rectangle
-import threading
+from gui_plot_polygon import  GUI_plot_circle
+
 
 
 
@@ -41,7 +42,7 @@ class Forinvs():
         plot_design_menu.add_command(label='Cluster', command = self.do_job)
         plot_design_menu.add_command(label='HPS', command = self.do_job)
         plot_design_menu.add_command(label='Rectangle', command = self.plot_rectangle)
-        plot_design_menu.add_command(label='Polygon', command = self.do_job)
+        plot_design_menu.add_command(label='Polygon', command = self.plot_polygon)
 
         sample_design_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='Sample Design', menu=sample_design_menu)
@@ -79,6 +80,11 @@ class Forinvs():
     def plot_rectangle(self):
         self.Entry_gui.destroy()
         GUI_plot_rectangle().gui()
+        self.gui()
+
+    def plot_polygon(self):
+        self.Entry_gui.destroy()
+        GUI_plot_polygon().gui()
         self.gui()
 
 
