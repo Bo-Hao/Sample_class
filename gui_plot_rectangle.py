@@ -23,7 +23,7 @@ class GUI_plot_rectangle():
 
         x = 20
         y = 30
-        xgap = 100
+        xgap = 120
         ygap = 35
         i = 0
         self.xdata_label = tk.Label(self.gui_rectangle, text = 'Data')

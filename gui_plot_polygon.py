@@ -51,7 +51,7 @@ class GUI_plot_polygon():
         i += 1 
 
         default_valuew = tk.StringVar()
-        default_valuew.set("10,10,10")
+        default_valuew.set("10,10,10,10,10")
         self.pl_label = tk.Label(self.gui_polygon, text = 'length (m)')
         self.pl_label.place(x = x, y =  y + i*ygap)
         
@@ -61,13 +61,25 @@ class GUI_plot_polygon():
         i += 1
 
         default_valuer = tk.StringVar()
-        default_valuer.set("0,90,180")
-        self.pr_label = tk.Label(self.gui_polygon, text = 'rotation (degree)')
+        default_valuer.set("0,72,144,216,288")
+        self.pr_label = tk.Label(self.gui_polygon, text = 'angle(degree)')
         self.pr_label.place(x = x, y =  y + i*ygap)
         
+       
         self.pr_entry = tk.Entry(self.gui_polygon, textvariable = default_valuer)
         self.pr_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
         i += 1
+        
+        default_valueo = tk.StringVar()
+        default_valueo.set("0")
+        self.po_label = tk.Label(self.gui_polygon, text = 'rotation(degree)')
+        self.po_label.place(x = x, y =  y + i*ygap)
+        
+       
+        self.po_entry = tk.Entry(self.gui_polygon, textvariable = default_valueo)
+        self.po_entry.place(x = x + xgap, y =  y + i*ygap, width = 100)
+        i += 1
+
 
         
         self.pedge_label = tk.Label(self.gui_polygon, text = 'boundary')
@@ -93,6 +105,7 @@ class GUI_plot_polygon():
         self.py = np.random.uniform(0, 500) if self.py_entry.get() == '' else float(self.py_entry.get())
         self.pg =self.pl_entry.get().split(',')
         self.pr =self.pr_entry.get().split(',')
+        self.po=self.po_entry.get()
         
         self.pl=[]
         for i in range(len(self.pg)):
@@ -101,15 +114,15 @@ class GUI_plot_polygon():
         listx=[]
         listy=[]
         for i in range(len(self.pl)):
-            listx.append(self.px+float(self.pl[i])*np.cos(np.pi*float(self.pr[i])/180))
-            listy.append(self.py+float(self.pl[i])*np.sin(np.pi*float(self.pr[i])/180))
+            listx.append(self.px+float(self.pl[i])*np.cos(np.pi*((float(self.pr[i])+float(self.po))/180)))
+            listy.append(self.py+float(self.pl[i])*np.sin(np.pi*((float(self.pr[i])+float(self.po))/180)))
 
 
         self.arrayx = np.array(listx)
         self.arrayy = np.array(listy)
         polygon = Polygon(np.c_[self.arrayx, self.arrayy])
         
-        self.edge = max(self.pl)       
+        self.edge = max(self.pl)      
         self.search_inarea()
         self.search_shape()
  
