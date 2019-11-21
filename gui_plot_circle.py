@@ -15,7 +15,7 @@ class GUI_plot_circle():
         pass
     def gui(self):
         self.gui_circle= tk.Tk()
-        self.gui_circle.geometry("750x570+30+30") 
+        self.gui_circle.geometry("1250x570+30+30") 
         self.gui_circle.title('gui.plot.circle')
         
         self.canvas = tk.Canvas(self.gui_circle, bg = 'white', height = 500, width = 500)
@@ -113,6 +113,8 @@ class GUI_plot_circle():
         canvas.draw()
         canvas.get_tk_widget().place(x = 220, y = 30)
 
+        self.show_in_table()
+
     
     def search_inarea(self):
         with open('/Users/pengbohao/Sample_class/FORINVS-master/exdata1_sorted.pickle', 'rb') as f:
@@ -153,6 +155,20 @@ class GUI_plot_circle():
         
         self.inshape = np.array(self.inshape)
         self.outshape = np.array(self.outshape)
+    
+    def show_in_table(self):
+        cols_name = ['x', 'y', 'DBH', "height", 'species',"TF"]
+        self.table = ttk.Treeview(self.gui_circle, columns=cols_name, show='headings', height = 20)
+        
+        for col in cols_name:
+            self.table.column(col, minwidth=0,width=60, stretch=False)
+       
+
+        for i in range(len(self.inshape)):
+            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], 25])
+        for col in cols_name:
+            self.table.heading(col, text=col)   
+        self.table.place(x = 740, y = 90)
 
         
                 

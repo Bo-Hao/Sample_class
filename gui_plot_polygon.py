@@ -10,20 +10,22 @@ from shapely.geometry import Polygon, MultiPolygon
 from matplotlib.path import Path
 
 
+
+
 class GUI_plot_polygon():
     def __init__(self):
         pass
     def gui(self):
         self.gui_polygon= tk.Tk()
-        self.gui_polygon.geometry("750x570+30+30") 
+        self.gui_polygon.geometry("1250x570+30+30") 
         self.gui_polygon.title('gui.plot.polygon')
         
-        self.canvas = tk.Canvas(self.gui_polygon, bg = 'white', height = 500, width = 500)
-        self.canvas.place(x = 220, y = 30)
+        self.canvas = tk.Canvas(self.gui_polygon, bg = 'white', height = 500, width = 1000)
+        self.canvas.place(x = 240, y = 30)
 
         x = 20
         y = 30
-        xgap = 100
+        xgap = 120
         ygap = 35
         i = 0
         self.xdata_label = tk.Label(self.gui_polygon, text = 'Data')
@@ -143,7 +145,12 @@ class GUI_plot_polygon():
                 
         canvas = FigureCanvasTkAgg(fig, master=self.gui_polygon)  # A tk.DrawingArea.
         canvas.draw()
-        canvas.get_tk_widget().place(x = 220, y = 30)
+        canvas.get_tk_widget().place(x = 240, y = 30)
+
+        self.show_in_table()
+        
+
+
 
     
     def search_inarea(self):
@@ -190,7 +197,20 @@ class GUI_plot_polygon():
         self.inshape = np.array(self.inshape)
         self.outshape = np.array(self.outshape)
     
- 
+    def show_in_table(self):
+        cols_name = ['x', 'y', 'DBH', "height", 'species',"TF"]
+        self.table = ttk.Treeview(self.gui_polygon, columns=cols_name, show='headings', height = 20)
+        
+        for col in cols_name:
+            self.table.column(col, minwidth=0,width=60, stretch=False)
+       
+
+        for i in range(len(self.inshape)):
+            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], 25])
+        for col in cols_name:
+            self.table.heading(col, text=col)   
+        self.table.place(x = 740, y = 90)
+
 
 
 class myarray(np.ndarray):
