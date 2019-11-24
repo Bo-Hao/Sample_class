@@ -111,13 +111,13 @@ class GUI_plot_circle():
         
         canvas = FigureCanvasTkAgg(fig, master=self.gui_circle)  # A tk.DrawingArea.
         canvas.draw()
-        canvas.get_tk_widget().place(x = 220, y = 30)
+        canvas.get_tk_widget().place(x = 225, y = 30)
 
         self.show_in_table()
 
     
     def search_inarea(self):
-        with open('/Users/pengbohao/Sample_class/FORINVS-master/exdata1_sorted.pickle', 'rb') as f:
+        with open('exdata1_sorted.pickle', 'rb') as f:
             data = pickle.load(f)
         for i in range(len(data)):
             for j in [1, 2, 3, 4]:
@@ -159,17 +159,22 @@ class GUI_plot_circle():
     def show_in_table(self):
         cols_name = ['x', 'y', 'DBH', "height", 'species',"TF"]
         self.table = ttk.Treeview(self.gui_circle, columns=cols_name, show='headings', height = 20)
-        
+ 
+        self.area=round(float(self.pr_entry.get())**2*np.pi,2)
+        self.label = ttk.Label(self.gui_circle, text = 'The area is: '+str(self.area)+'m2')       
+
+
         for col in cols_name:
             self.table.column(col, minwidth=0,width=60, stretch=False)
        
 
         for i in range(len(self.inshape)):
-            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], 25])
+            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], round(10000/self.area,2)])
         for col in cols_name:
             self.table.heading(col, text=col)   
+        
         self.table.place(x = 740, y = 90)
-
+        self.label.place(x = 760, y = 40)
         
                 
 

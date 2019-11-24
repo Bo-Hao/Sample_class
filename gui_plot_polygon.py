@@ -145,7 +145,7 @@ class GUI_plot_polygon():
                 
         canvas = FigureCanvasTkAgg(fig, master=self.gui_polygon)  # A tk.DrawingArea.
         canvas.draw()
-        canvas.get_tk_widget().place(x = 240, y = 30)
+        canvas.get_tk_widget().place(x = 250, y = 30)
 
         self.show_in_table()
         
@@ -201,14 +201,18 @@ class GUI_plot_polygon():
         cols_name = ['x', 'y', 'DBH', "height", 'species',"TF"]
         self.table = ttk.Treeview(self.gui_polygon, columns=cols_name, show='headings', height = 20)
         
+        self.area= round(Polygon(np.c_[self.arrayx, self.arrayy]).area,2)
+        self.label = ttk.Label(self.gui_polygon, text = 'The area is: '+str(self.area)+'m2')        
         for col in cols_name:
             self.table.column(col, minwidth=0,width=60, stretch=False)
        
 
         for i in range(len(self.inshape)):
-            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], 25])
+            self.table.insert("", "end", values = [self.inshape[i][1], self.inshape[i][2], self.inshape[i][3], self.inshape[i][4], self.inshape[i][0], round(10000/self.area,2)])
         for col in cols_name:
             self.table.heading(col, text=col)   
+        
+        self.label.place(x = 760, y = 40)
         self.table.place(x = 740, y = 90)
 
 
@@ -224,3 +228,4 @@ class myarray(np.ndarray):
 if __name__ == "__main__":
     G = GUI_plot_polygon()
     G.gui()
+
