@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def f(a, e):
     # a: angle e: elevation
-    a = a/180*np.pi
+    
     e = e/180*np.pi
     new_angle = acos(np.sin(e)**2 + np.cos(a) * np.cos(e)**2)
     return new_angle/np.pi*180
